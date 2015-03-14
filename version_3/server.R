@@ -29,11 +29,15 @@ shinyServer(
       
       if (type == "Standard Normal")
       {
-        generate = rnorm(N)
-      }
+       expected.mean = 0
+       generate = rnorm(N, expected.mean)
+       }
       else if (type == "Uniform")
       {
-        generate = runif(N)
+        min = 0
+        max = 1
+        expected.mean = (max - min) / 2
+        generate = runif(N, max, min)
       }
       
       return(generate)
@@ -100,7 +104,7 @@ shinyServer(
       
       plot(Nvals(), results()$mean, xlab = "N", ylab = "mean value",
            main = "Mean of Distribution")
-           abline(h = 0, col = "green") # put in green line at mean (mean is set to default of 0 in rnorm and runif?)
+           abline(h = expected.mean, col = "green") 
    })
     
     output$varplot = renderPlot({
