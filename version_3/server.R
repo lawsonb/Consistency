@@ -14,6 +14,7 @@ shinyServer(
     })
 
     # preset values (could make it so they can be changed)
+    type = input$select
     if (type == "Standard Normal")
     {
       true.mean = 0
