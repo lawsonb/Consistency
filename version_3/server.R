@@ -131,7 +131,7 @@ shinyServer(
       
       plot(Nvals(), results()$sd, xlab = "N", ylab = "SD value",
            main = "Standard Deviation of Distribution")
-      abline(h = results()$true.sd, col = "green") 
+           abline(h = results()$true.sd, col = "green") 
     })
     
     
