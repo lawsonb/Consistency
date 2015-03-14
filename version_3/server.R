@@ -68,9 +68,11 @@ shinyServer(
     
     # operator code 
     
-    # x = how many estimated statistics user wants for each N 
 
     Nvals = reactive({
+      # x = how many estimated statistics user wants for each N 
+      # Returns: index of N values to calculate estimators from 
+      
       x = input$xruns
       numweights = c(rep(10, x), rep(100, x), rep(250, x), 
                 rep(500, x), rep(1000, x), rep(2000, x))
@@ -80,13 +82,11 @@ shinyServer(
     })
 
     
-    
     results = reactive({
-      # a dataset containing #increments worth of samples 
-      # each sample has N data points with selected distribution 
+      # a list containing the estimator values for each individual sample 
+      # plot with weights to form a graph 
       
       fin = mycalc(type = input$select, weights = Nvals())
-      
       return(fin)
       
     })
