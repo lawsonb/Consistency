@@ -14,13 +14,12 @@ shinyServer(
     })
 
     # preset values (could make it so they can be changed)
-    type = input$select
-    if (type == "Standard Normal")
+    if (input$select == "Standard Normal")
     {
       true.mean = 0
       true.sd = 1
       }
-      else if (type == "Uniform") {
+      else if (input$select == "Uniform") {
         # as set now it does U(0,1), if change it would do (-0.5,0.5)
         true.mean = 0.5  # could set to 0
         true.sd = 1/sqrt(12) # setting the sd sets the width ( width = sd*sqrt(12) )
