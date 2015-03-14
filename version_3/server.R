@@ -13,12 +13,23 @@ shinyServer(
       paste("Number of estimates per N: ", input$xruns)
     })
 
+    # preset values (could make it so they can be changed)
+    if (type == "Standard Normal")
+    {
+      true.mean = 0
+      true.sd = 1
+      }
+      else if (type == "Uniform") {
+        # as set now it does U(0,1), if change it would do (-0.5,0.5)
+        true.mean = 0.5  # could set to 0
+        true.sd = 1/sqrt(12) # setting the sd sets the width ( width = sd*sqrt(12) )
+      }
     
     #######################################
     # functions 
     
     
-    mytype_gen = function(N, type)
+    mytype_gen = function(N, type, mean, sd)
     {
       # returns ONE randomly generated sample of distribution I am using 
       # the distribution is specified via user input select 
@@ -29,15 +40,13 @@ shinyServer(
       
       if (type == "Standard Normal")
       {
-       expected.mean = 0
-       generate = rnorm(N, expected.mean)
+       generate = rnorm(N, mean, sd)
        }
       else if (type == "Uniform")
       {
-        min = 0
-        max = 1
-        expected.mean = (max - min) / 2
-        generate = runif(N, max, min)
+         max = mean + sqrt(3)*sd
+         min = mean - sqrt(3)*sd
+         generate = runif(N, max, min)
       }
       
       return(generate)
@@ -52,10 +61,10 @@ shinyServer(
       # type = type of distribution 
       # weights = vector of the size of the samples (N)
       
-      # Returns: mean, variance, and sd of sample 
+      # Returns: sample means, variances, and sd of sample 
       #           in the form of a named list 
       
-      temp = sapply(weights, function(x) mytype_gen(N = x, type = type)) 
+      temp = sapply(weights, function(x) mytype_gen(N = x, type = type, true.mean, true.sd)) 
       
       
       result = list() 
@@ -104,7 +113,7 @@ shinyServer(
       
       plot(Nvals(), results()$mean, xlab = "N", ylab = "mean value",
            main = "Mean of Distribution")
-           abline(h = expected.mean, col = "green") 
+           abline(h = true.mean, col = "green") 
    })
     
     output$varplot = renderPlot({
