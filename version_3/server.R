@@ -105,7 +105,7 @@ shinyServer(
     output$varplot = renderPlot({
       
       plot(Nvals(), results()$var, xlab = "N", ylab = "variance value",
-           main = "Variance of Distribution"),
+           main = "Variance of Distribution")
            abline(v = 0, col = "green") # put in green line at mean (mean is set to default of 0 in rnorm and runif?)
     })
     
